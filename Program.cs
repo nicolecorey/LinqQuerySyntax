@@ -1,4 +1,4 @@
-﻿namespace LINQ
+namespace LINQ
 {
 
     class famousPeople
@@ -29,7 +29,9 @@
                 new famousPeople() {Name = "Frances Allen", BirthYear=1932,DeathYear=2020 },
                 new famousPeople() {Name = "Bill Gates", BirthYear=1955 }
      };
-            var nineteenHundreds = stemPeople.Where(s => s.BirthYear > 1900);
+            var nineteenHundreds = from s in stemPeople
+                                   where s.BirthYear > 1900
+                                   select s;
 
             Console.WriteLine("STEM People born after 1900:");
             foreach (var t in nineteenHundreds)
@@ -38,24 +40,33 @@
             }
             Console.WriteLine();
 
-            var doubleL = stemPeople.Where(s => s.Name.Contains("ll"));
+            var doubleL = from s in stemPeople
+                          where s.Name.Contains("ll")
+                          select s;
+
             Console.WriteLine("STEM People with 2 lowercase Ls in their name:");
             foreach (var t in doubleL)
             {
-                Console.WriteLine($"{t.Name}");
+                Console.WriteLine(t.Name);
             }
             Console.WriteLine();
 
-            var countPeople = stemPeople.Count(s => s.BirthYear > 1950);
-            Console.WriteLine("The number of STEM people born after 1950: " + countPeople);
+            var countPeople = from peo in stemPeople
+                              where peo.BirthYear > 1950
+                              select peo;
+            var countPeople1 = countPeople.Count();
+            Console.WriteLine("The number of STEM people born after 1950: " + countPeople1);
             Console.WriteLine();
 
             Console.WriteLine("The names of the people born between 1920 and 2000:");
-            var birthCount = stemPeople.Where(s => s.BirthYear > 1920).Where(s => s.BirthYear < 2000)
-                                        .OrderBy(s => s.BirthYear).ToList<famousPeople>();
+            var birthCount = from stm in stemPeople
+                             where stm.BirthYear > 1920
+                             where stm.BirthYear < 2000
+                             orderby stm.BirthYear
+                             select stm;
             foreach (var b in birthCount)
             {
-                Console.WriteLine($"{b.Name}");
+                Console.WriteLine(b.Name);
             }
             Console.WriteLine();
 
@@ -64,11 +75,14 @@
             Console.WriteLine();
 
             Console.WriteLine("The names of the people who died between 1960 and 2015:");
-            var deathCount = stemPeople.Where(s => s.DeathYear > 1960).Where(s => s.DeathYear < 2015)
-                                        .OrderBy(s => s.Name).ToList<famousPeople>();
+            var deathCount = from stp in stemPeople
+                             where stp.DeathYear > 1960
+                             where stp.DeathYear < 2015
+                                        orderby stp.Name
+                             select stp;
             foreach (var d in deathCount)
             {
-                Console.WriteLine($"{d.Name}");
+                Console.WriteLine(d.Name);
             }
             Console.WriteLine();
 
